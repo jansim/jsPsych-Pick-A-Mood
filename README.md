@@ -1,4 +1,5 @@
 # Pick A Mood
+![An example image of Pick-A-Mood for the robot character.](img/pick-a-mood/robot-all.png)
 This repository contains an implementation of [Pick a Mood](http://studiolab.ide.tudelft.nl/diopd/library/tools/pick-a-mood/) for jsPsych, which I created for a personal project.
 
 ## Atrribution
