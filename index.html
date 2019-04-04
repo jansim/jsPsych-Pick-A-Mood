@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/jspsych@6.0.0/jspsych.js"></script>
+    <script src="https://unpkg.com/jspsych@6.0.0/plugins/jspsych-html-button-response.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@6.0.0/css/jspsych.css"></link>
+
+    <script src="https://unpkg.com/image-map-resizer@1.0.9/js/imageMapResizer.js"></script>
+
+    <script src="js/jspsych-html-imageMap-response.js"></script>
+  </head>
+  <body></body>
+  <script>
+
+  var timeline = [];
+
+  timeline.push({
+    type: 'html-button-response',
+    stimulus: '<p>Please note, that this is a very rudamentry example and questions etc. should be adjusted.</p>',
+    choices: ['Continue']
+  });
+
+  var version = {
+    type: 'html-button-response',
+    stimulus: '<p>Which version do you want to see?</p>',
+    choices: ['Male', 'Female', 'Robot'],
+    data: {trialName: 'version'}
+  };
+  timeline.push(version);
+
+  var pickAMood = {
+    type: 'html-imageMap-response',
+    data: {trialName: 'pickAMood'},
+    prompt: '<p>Please pick the image that best shows how you are feeling <b>right now?</b></p>',
+    stimulus: () => {
+      let version = 'robot'
+      let choice
+      try {
+        // Get choice of PAM version
+        choice = jsPsych.data.get().filter({trialName: 'version'}).select('button_pressed').values[0]
+      } catch (error) { console.error(error) }
+
+      if (choice == "0") { version = 'male' }
+      if (choice == "1") { version = 'female' }
+
+      return `img/pick-a-mood/${version}-all.png`
+    },
+    areas: [
+      { label: 'sad', coords:[213,535,299,656,60,910,1,912,1,545], shape: 'poly' },
+      { label: 'bored', coords:[301,664,467,722,456,985,195,991,173,873], shape: 'poly' },
+      { label: 'calm', coords:[476,723,636,666,774,963,470,983], shape: 'poly' },
+      { label: 'relaxed', coords:[719,556,906,537,992,612,963,864,742,820,665,654], shape: 'poly' },
+      { label: 'cheerful', coords:[713,521,657,515,636,458,708,341,762,239,892,197,985,286,996,539,964,545,904,512,813,534,758,529], shape: 'poly' },
+      { label: 'excited', coords:[648,354,774,182,679,20,515,5,436,19,469,158,497,258,506,328,565,351], shape: 'poly' },
+      { label: 'tense', coords:[424,339,468,204,411,34,261,33,179,139,169,204,228,334,313,374], shape: 'poly' },
+      { label: 'irritated', coords:[262,387,133,225,1,277,1,523,196,516,241,442], shape: 'poly' },
+      { label: 'neutral', coords:[568,377,369,382,306,553,410,672,595,630,602,500], shape: 'poly' }
+    ]
+  }
+  timeline.push(pickAMood)
+
+  jsPsych.init({
+    timeline: timeline,
+    on_finish: function(){jsPsych.data.displayData();}
+  });
+
+  </script>
+</html>
