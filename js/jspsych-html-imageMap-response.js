@@ -99,6 +99,8 @@ jsPsych.plugins["html-imageMap-response"] = (function() {
     let clickTargets = display_element.querySelectorAll('#' + IMAGE_MAP_ID + ' area')
     for (var i = 0; i < clickTargets.length; i++) {
       clickTargets[i].addEventListener('click', function(e){
+        e.preventDefault();
+
         var choice = e.currentTarget.getAttribute('data-choice'); // don't use dataset for jsdom compatibility
         after_response(choice);
       });
